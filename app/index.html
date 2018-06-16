@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- for fontawesome icon css file -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- for content animate css file -->
+    <link rel="stylesheet" href="css/animate.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css'>
+    <!-- main site css file -->
+    <link href="structure.css" rel="stylesheet">
+</head>
+<body ng-app="myApp">
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<!-- End Preloader -->
+<!-- End top add banner -->
+<a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
+
+<!-- ==================start header=============== -->
+<header id="header">
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header" ng-controller="myCtrl">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#!/index"><span>Angular</span>
+                        Blog</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav custom_nav" ng-controller="myCtrl">
+                        <li><a href="#!/index">Home</a></li>
+                        <li><a href="" ng-click="Logout(token)" ng-if="token">logout</a></li>
+                        <li><a href="#!/login" ng-if="!token">Login</a></li>
+                        <li ng-if="!token">
+                            <button type="button" style="margin-top:11px;" data-toggle="modal" data-target=".bs-example-modal-sm">SignUp</button>
+
+                            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel1">
+                                <div class="modal-dialog modal-sm" role="document" style="z-index: 9999;">
+                                    <div class="modal-content" ng-controller="PostListCtrl">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Register</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword">Username</label>
+                                                    <input ng-model="username" id="exampleInputPassword">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Password</label>
+                                                    <input ng-model="password" id="exampleInputPassword1">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword12">Email</label>
+                                                    <input ng-model="email" id="exampleInputPassword12">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" ng-click="register(username, password, email)">Register</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="#!/add-cat" ng-if="token">Add Category</a></li>
+                        <li><a href="#!/add-post" ng-if="token">Add Post</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+        <form id="searchForm">
+            <input type="text" placeholder="Search...">
+            <input type="submit" value="">
+        </form>
+    </div>
+</header>
+<section id="contentbody">
+
+    <div class="container">
+        <div class="row">
+            <!-- start left bar content -->
+            <div class=" col-sm-12 col-md-6 col-lg-6">
+                <div class="row">
+                    <div class="leftbar_content">
+
+                        <div ng-view></div>
+                        <!-- End single stuff post -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-2 col-lg-2">
+                <div class="row">
+                    <div class="middlebar_content">
+                        <div class="popular_categori  wow fadeInUp" ng-controller="myCtrl">
+                            <h2 class="limeblue_bg">Categories {{error}}</h2>
+                            <ul class="poplr_catgnva">
+                                <li ng-repeat="category in Categories.results">
+                                    <a href="#!/category/{{category.id}}"> {{category.cat_title}} </a> <a href="" ng-click="delete_cat(category.id)"> X </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="middlebar_content_inner wow fadeInUp">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End middle bar content -->
+            <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="row">
+                    <div class="rightbar_content">
+                        <div class="single_blog_sidebar wow fadeInUp">
+                            <h2>Last Five Posts</h2>
+                            <ul class="middlebar_nav wow" ng-controller="myCtrl">
+                                <li ng-repeat="post in Posts.results|limitTo:'5'|orderBy:'id'">
+                                    <a href="" class="mbar_thubnail"><img alt="img" src="img/hot_img1.jpg"></a>
+                                    <a href="#!/category/{{post.post_cat}}/post/{{post.id}}" class="mbar_title">{{post.post_content|limitTo:'50'}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer_inner">
+                    <p class="pull-left">All Rights Reserved <a href="#">ColorMag</a></p>
+                    <p class="pull-right">Developed By <a href="http://www.wpfreeware.com" rel="nofollow">WpFreeware</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================End content body section=============== -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<!-- For content animatin  -->
+<script src="js/wow.min.js"></script>
+<!-- custom js file include -->
+<script src="js/custom.js"></script>
+<!-- script references -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+<script src="Category/Category.js"></script>
+<script src="Home/Home.js"></script>
+<script src="Post/Post.js"></script>
+<script src="Login/Login.js"></script>
+<script src="addCat/addCat.js"></script>
+<script src="addPost/addPost.js"></script>
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
+</body>
+</html>

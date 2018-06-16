@@ -1,0 +1,12 @@
+
+<form name="myForm" ng-controller="addPostCtrl" class="my-form">
+    <select name="a" id="b" ng-model="cat">
+        <option ng-repeat="cat in categories.results" value="{{cat.id}}">{{cat.cat_title}}</option>
+    </select>
+    title: <input name="input" ng-model="title" required>
+    content: <input name="input" ng-model="content" required>
+    <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
+    <button ng-click="save(cat,title,content)">Save</button>
+    {{ error }}
+</form>
+

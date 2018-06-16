@@ -1,0 +1,29 @@
+<div ng-controller="PostCtrl" ng-repeat="post in Posts.results | orderBy:'-id'">
+    <div class="singlepost_content" ng-if="post.post_cat == category.id">
+        <div>
+            <div ng-repeat="cat in Categories.results">
+                <div ng-if="cat.id == category.id">
+                    <a href="#" class="stuff_category">{{cat.cat_title}}</a>
+                </div>
+            </div>
+            <span class="stuff_date">{{post.post_updatedAd|date}}</span>
+            <h2><a href="#!/category/{{post.post_cat}}/post/{{post.id}}">{{post.post_title}}</a></h2>
+            <img class="img-center" src="img/hot_img1.jpg" alt="img">
+            <p>{{post.post_content|limitTo:'200'}}</p>
+            <!-- single page pagination  -->
+            <div class="singlepage_pagination">
+                <a class="next_btn" href="#!/category/{{post.post_cat}}/post/{{post.id}}">Read More</a>
+            </div>
+            <!-- author area-->
+            <div class="author">
+                <a href="#"><img src="http://lorempixel.com/100/100/" alt="img"></a>
+                <div class="author_details" ng-repeat="user in Users.results">
+                    <div ng-if="user.id == post.post_author">
+                        <h3><a href="#">{{user.username}}</a></h3>
+                        <p>{{user.first_name}} {{user.last_name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

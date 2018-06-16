@@ -1,0 +1,133 @@
+<div>
+    <div class="singlepost_area">
+        <div class="singlepost_content" ng-controller="PostListCtrl">
+            <a href="#" class="stuff_category">{{Category.cat_title}}</a>
+            <span class="stuff_date">{{Post.post_updatedAd|date}}</span>
+            <h2><a href="#">{{Post.post_title}}</a></h2>
+            <img class="img-center" src="img/hot_img1.jpg" alt="img">
+            <p>{{Post.post_content}}</p>
+            <div style="float: left;">Like :{{Post.post_like}} Dislike : {{Post.post_dislike}}</div>
+            <div style="float: right;">
+                <a href="" ng-click="like()"><i class="fa fa-thumbs-o-up"></i></a>
+                <a href="" ng-click="dislike()"><i class="fa fa-thumbs-o-down"></i></a>
+            </div>
+            <br>
+            <!-- author area-->
+            <div class="author">
+                <div class="author_details">
+                    <div ng-repeat="user in Users.results">
+                        <div ng-if="user.id == Post.post_author">
+                            <div style="float: left;">
+                                by <a href="#">{{user.username}}</a></div>
+                            <div><a href="" style="float: right">updated {{Post.post_updatedAd|date}}</a></div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div><!-- Button trigger modal -->
+                <!-- Small modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Edit</button>
+                | <a href="" ng-click="delete_post()">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="similar_post_area">
+    <h2>Add Comment <i class="fa fa-thumbs-o-up"></i>
+        <table>
+            <tr>
+                <td style="width: 500px;">
+                    <input type="text" class="form-control" ng-model="comment_text">
+                </td>
+                <td> <a ng-click="comment_save(comment_text)" style="float: left;" class="btn btn-primary">Send</a></td>
+            </tr>
+        </table>
+    </h2>
+</div>
+
+<div ng-controller="PostListCtrl" ng-repeat="comment in Comments.results|orderBy:'id'">
+<div class="singlepost_area" ng-if="comment.comment_post == Post.id">
+    <div class="singlepost_content" >
+        <div class="author" >
+            <a href="#"><img src="http://lorempixel.com/100/100/" alt="img"></a>
+            <div class="author_details">
+
+                <div ng-repeat="user in Users.results">
+                    <div ng-if="user.id == comment.comment_author">
+                        <div style="float: left;">
+                            by <a href="#">{{user.username}}</a></div>
+                        <div><a href="" style="float: right">{{comment.comment_updatedAt|date}}</a></div>
+                    </div>
+                </div>
+                <hr>
+                <p>{{comment.comment_content}}</p>
+                <div style="float: left;">Like :{{comment.comment_like}} Dislike : {{comment.comment_dislike}}</div>
+                <div style="float: right;">
+                    <a href="" ng-click="comment_likes(comment.id)"><i class="fa fa-thumbs-o-up"></i></a>
+                    <a href="" ng-click="comment_dislikes(comment.id)"><i class="fa fa-thumbs-o-down"></i></a>
+                </div>
+                <br>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm{{comment.id}}">Edit</button>
+                    | <a href="" ng-click="delete_comment(comment.id)">Delete</a>
+
+                    <div class="modal fade bs-example-modal-sm{{comment.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel1">
+                        <div class="modal-dialog modal-sm" role="document" style="z-index: 9999;">
+                            <div class="modal-content" ng-controller="PostListCtrl">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel{{comment.id}}">Edit Post</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword{{comment.id}}">Content Comment</label>
+                                            <textarea cols="30" id="exampleInputPassword{{comment.id}}" name="post_content" rows="10" ng-model="content_comment"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" ng-click="Update_comment(content_comment,comment.id)">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document" style="z-index: 9999;">
+        <div class="modal-content" ng-controller="PostListCtrl">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Post</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Title</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Title" ng-model="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Content</label>
+                        <textarea cols="30" id="exampleInputPassword1" name="post_content" rows="10" ng-model="content"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="Update_post(title,content)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

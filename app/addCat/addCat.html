@@ -1,0 +1,9 @@
+
+    <form name="myForm" ng-controller="addCatCtrl" class="my-form">
+        Category: <input name="input" ng-model="userType" required>
+        <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
+        <button ng-click="save(userType)">Save</button>
+        {{ error }}
+        {{dat}}
+    </form>
+
